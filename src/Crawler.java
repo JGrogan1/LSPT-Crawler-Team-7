@@ -1,7 +1,5 @@
 import java.io.FileNotFoundException;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,11 +30,12 @@ public class Crawler {
     public static void main(String[] args){
         File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         pageQueue = GeneratePriorityQueue(file);
-        Spider spider = new Spider();
 
+        List<String> outlinks = new LinkedList<String>();
         for (QueueObject q : pageQueue) {
-            spider.crawl(q.page);
+            outlinks.addAll(Spider.crawl(q.page));
         }
+        System.out.println("Number of total outlinks: " + outlinks.size());
 
     }
 

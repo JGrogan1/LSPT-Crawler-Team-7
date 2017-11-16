@@ -13,9 +13,6 @@ public class Spider
     // We'll use a fake USER_AGENT so the web server thinks the robot is a normal web browser.
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
-    private List<String> links = new LinkedList<String>();
-    private Document htmlDocument;
-
 
     /**
      * This performs all the work. It makes an HTTP request, checks the response, and then gathers
@@ -25,13 +22,13 @@ public class Spider
      *            - The URL to visit
      * @return whether or not the crawl was successful
      */
-    public boolean crawl(String url)
+    public static List<String> crawl(String url)
     {
+        List<String> links = new LinkedList<String>();
         try
         {
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
             Document htmlDocument = connection.get();
-            this.htmlDocument = htmlDocument;
             if(connection.response().statusCode() == 200) // 200 is the HTTP OK status code
             // indicating that everything is great.
             {
@@ -40,26 +37,20 @@ public class Spider
             if(!connection.response().contentType().contains("text/html"))
             {
                 System.out.println("**Failure** Retrieved something other than HTML");
-                return false;
+                return links;
             }
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
             for(Element link : linksOnPage)
             {
-                this.links.add(link.absUrl("href"));
+                links.add(link.absUrl("href"));
             }
-            return true;
+            return links;
         }
         catch(IOException ioe)
         {
             // We were not successful in our HTTP request
-            return false;
+            return links;
         }
     }
-
-    public List<String> getLinks()
-    {
-        return this.links;
-    }
-
 }
