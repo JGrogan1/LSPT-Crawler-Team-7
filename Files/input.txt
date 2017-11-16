@@ -1,4 +1,2 @@
-page1 12
-asd 32
-ewer 3
-alsopage 49
+http://google.com 23
+http://arstechnica.com 46

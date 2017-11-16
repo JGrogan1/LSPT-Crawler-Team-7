@@ -32,9 +32,10 @@ public class Crawler {
     public static void main(String[] args){
         File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         pageQueue = GeneratePriorityQueue(file);
+        Spider spider = new Spider();
 
         for (QueueObject q : pageQueue) {
-            System.out.println( q.page+" " + q.priority);
+            spider.crawl(q.page);
         }
 
     }
