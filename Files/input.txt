@@ -1,2 +1,2 @@
-http://google.com 23
-http://arstechnica.com 46
+https://google.com 23
+https://arstechnica.com 46

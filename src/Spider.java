@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class Spider
             if(!connection.response().contentType().contains("text/html"))
             {
                 System.out.println("**Failure** Retrieved something other than HTML");
-                return links;
+                return filterLinks(url, links);
             }
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
@@ -45,12 +49,36 @@ public class Spider
             {
                 links.add(link.absUrl("href"));
             }
-            return links;
+            return filterLinks(url, links);
         }
         catch(IOException ioe)
         {
             // We were not successful in our HTTP request
+            return filterLinks(url, links);
+        }
+    }
+
+    private static List<String> filterLinks(String sUrl, List<String> links) {
+        URL url = null;
+        try {
+            url = new URL(sUrl);
+            System.out.println(url.getHost());
+        }
+        catch(MalformedURLException e) {
+            System.out.println("Failed to connect to URL " + sUrl);
             return links;
         }
+        try(BufferedReader in = new BufferedReader(
+                new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
+            String line = null;
+            while((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to get robots.txt file for " + sUrl);
+            return links;
+        }
+
+        return links;
     }
 }
