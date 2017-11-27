@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
@@ -82,16 +83,18 @@ public class Spider
             String disallowString = "Disallow:";
             while((line = in.readLine()) != null)
             {
-                line.replaceAll("\\s+","");
+                line = line.replaceAll("\\s+","");
                 if(line.startsWith(allowString))
                 {
                     String regex = line.substring(allowString.length());
+                    regex = regex.replaceAll("\\?", "\\\\\\\\*");
                     regex = regex.replaceAll("\\*", "\\\\\\\\*");
                     allowList.add(regex);
                 }
                 else if(line.startsWith(disallowString))
                 {
                     String regex = line.substring(disallowString.length());
+                    regex = regex.replaceAll("\\?", "\\\\\\\\*");
                     regex = regex.replaceAll("\\*", "\\\\\\\\*");
                     disallowList.add(regex);
                 }
@@ -108,12 +111,12 @@ public class Spider
 
         for(int i = 0; i < links.size(); i++)
         {
-            int rootIndex = links.get(i).indexOf(url.getHost());
-            String linkMatch = links.get(i).substring(rootIndex+url.getHost().length());
             boolean allowed = false;
             for(int j = 0; j < allowList.size(); j++)
             {
-                if(linkMatch.matches(allowList.get(j)))
+                Pattern p = Pattern.compile(allowList.get(j));
+                Matcher m = p.matcher(links.get(i));
+                if(m.find())
                 {
                     allowed = true;
                     break;
@@ -122,10 +125,11 @@ public class Spider
             if(!allowed)
             {
                 for (int j = 0; j < disallowList.size(); j++) {
-                    if(linkMatch.matches(disallowList.get(j)))
+                    Pattern p = Pattern.compile(disallowList.get(j));
+                    Matcher m = p.matcher(links.get(i));
+                    if(m.find())
                     {
                         System.out.println(links.get(i));
-                        System.out.println(disallowList.get(j));
                         links.remove(i);
                         i--;
                         break;
