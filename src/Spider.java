@@ -78,7 +78,7 @@ public class Spider
         }
         try(BufferedReader in = new BufferedReader(
                 new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
-            String line = null;
+            String line;
             String allowString = "Allow:";
             String disallowString = "Disallow:";
             while((line = in.readLine()) != null)
@@ -87,15 +87,15 @@ public class Spider
                 if(line.startsWith(allowString))
                 {
                     String regex = line.substring(allowString.length());
-                    regex = regex.replaceAll("\\?", "\\\\\\\\*");
-                    regex = regex.replaceAll("\\*", "\\\\\\\\*");
+                    regex = regex.replace("?", "\\?");
+                    regex = regex.replace("*", "\\\\*");
                     allowList.add(regex);
                 }
                 else if(line.startsWith(disallowString))
                 {
                     String regex = line.substring(disallowString.length());
-                    regex = regex.replaceAll("\\?", "\\\\\\\\*");
-                    regex = regex.replaceAll("\\*", "\\\\\\\\*");
+                    regex = regex.replace("?", "\\?");
+                    regex = regex.replace("*", "\\\\*");
                     disallowList.add(regex);
                 }
             }
@@ -130,6 +130,7 @@ public class Spider
                     if(m.find())
                     {
                         System.out.println(links.get(i));
+                        System.out.println(disallowList.get(j));
                         links.remove(i);
                         i--;
                         break;
