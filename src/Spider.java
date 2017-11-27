@@ -3,8 +3,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -28,7 +30,7 @@ public class Spider
      */
     public static List<String> crawl(String url)
     {
-        List<String> links = new LinkedList<String>();
+        List<String> links = new ArrayList<String>();
         try
         {
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
@@ -59,25 +61,79 @@ public class Spider
     }
 
     private static List<String> filterLinks(String sUrl, List<String> links) {
+        links.add("https://www.google.com/search");
+        List<String> allowList = new ArrayList<String>();
+        List<String> disallowList = new ArrayList<String>();
         URL url = null;
-        try {
+        try
+        {
             url = new URL(sUrl);
             System.out.println(url.getHost());
         }
-        catch(MalformedURLException e) {
+        catch(MalformedURLException e)
+        {
             System.out.println("Failed to connect to URL " + sUrl);
             return links;
         }
         try(BufferedReader in = new BufferedReader(
                 new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
             String line = null;
-            while((line = in.readLine()) != null) {
-                System.out.println(line);
+            String allowString = "Allow:";
+            String disallowString = "Disallow:";
+            while((line = in.readLine()) != null)
+            {
+                line.replaceAll("\\s+","");
+                if(line.startsWith(allowString))
+                {
+                    String regex = line.substring(allowString.length());
+                    regex = regex.replaceAll("\\*", "\\\\\\\\*");
+                    allowList.add(regex);
+                }
+                else if(line.startsWith(disallowString))
+                {
+                    String regex = line.substring(disallowString.length());
+                    regex = regex.replaceAll("\\*", "\\\\\\\\*");
+                    disallowList.add(regex);
+                }
             }
-        } catch (IOException e) {
+            System.out.println(links.size());
+            System.out.println(allowList);
+            System.out.println(disallowList);
+        }
+        catch (IOException e)
+        {
             System.out.println("Failed to get robots.txt file for " + sUrl);
             return links;
         }
+
+        for(int i = 0; i < links.size(); i++)
+        {
+            int rootIndex = links.get(i).indexOf(url.getHost());
+            String linkMatch = links.get(i).substring(rootIndex+url.getHost().length());
+            boolean allowed = false;
+            for(int j = 0; j < allowList.size(); j++)
+            {
+                if(linkMatch.matches(allowList.get(j)))
+                {
+                    allowed = true;
+                    break;
+                }
+            }
+            if(!allowed)
+            {
+                for (int j = 0; j < disallowList.size(); j++) {
+                    if(linkMatch.matches(disallowList.get(j)))
+                    {
+                        System.out.println(links.get(i));
+                        System.out.println(disallowList.get(j));
+                        links.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+        }
+        System.out.println(links.size());
 
         return links;
     }
