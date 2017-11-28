@@ -11,5 +11,6 @@
     <orderEntry type="library" name="org.jsoup:jsoup:1.11.1" level="project" />
     <orderEntry type="library" name="org.apache.pdfbox:pdfbox:2.0.4" level="project" />
     <orderEntry type="library" name="mongodb-driver-3.5.0-sources" level="project" />
+    <orderEntry type="library" name="mongo-java-driver-3.5.0" level="project" />
   </component>
 </module>
