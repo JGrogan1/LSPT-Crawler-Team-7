@@ -63,60 +63,61 @@ public class Spider
 
     private static List<String> filterLinks(String sUrl, List<String> links) {
         links.add("https://www.google.com/search");
-        List<String> allowList = new ArrayList<String>();
-        List<String> disallowList = new ArrayList<String>();
-        URL url = null;
-        try
-        {
-            url = new URL(sUrl);
-            System.out.println(url.getHost());
-        }
-        catch(MalformedURLException e)
-        {
-            System.out.println("Failed to connect to URL " + sUrl);
-            return links;
-        }
-        try(BufferedReader in = new BufferedReader(
-                new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
-            String line;
-            String allowString = "Allow:";
-            String disallowString = "Disallow:";
-            while((line = in.readLine()) != null)
-            {
-                line = line.replaceAll("\\s+","");
-                if(line.startsWith(allowString))
-                {
-                    String regex = line.substring(allowString.length());
-                    regex = regex.replace("?", "\\?");
-                    regex = regex.replace("*", "\\\\*");
-                    allowList.add(regex);
-                }
-                else if(line.startsWith(disallowString))
-                {
-                    String regex = line.substring(disallowString.length());
-                    regex = regex.replace("?", "\\?");
-                    regex = regex.replace("*", "\\\\*");
-                    disallowList.add(regex);
-                }
-            }
-            System.out.println(links.size());
-            System.out.println(allowList);
-            System.out.println(disallowList);
-        }
-        catch (IOException e)
-        {
-            System.out.println("Failed to get robots.txt file for " + sUrl);
-            return links;
-        }
+        System.out.println(links.size());
 
         for(int i = 0; i < links.size(); i++)
         {
+            List<String> allowList = new ArrayList<String>();
+            List<String> disallowList = new ArrayList<String>();
+            URL url = null;
+            try
+            {
+                url = new URL(links.get(i));
+            }
+            catch(MalformedURLException e)
+            {
+                System.out.println("Failed to connect to URL " + links.get(i));
+                continue;
+            }
+            try(BufferedReader in = new BufferedReader(
+                    new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
+                String line;
+                String allowString = "Allow:";
+                String disallowString = "Disallow:";
+                while((line = in.readLine()) != null)
+                {
+                    line = line.replaceAll("\\s+","");
+                    if(line.startsWith(allowString))
+                    {
+                        String regex = line.substring(allowString.length());
+                        regex = regex.replace("?", "\\?");
+                        regex = regex.replace("*", "\\\\*");
+                        allowList.add(regex);
+                    }
+                    else if(line.startsWith(disallowString))
+                    {
+                        String regex = line.substring(disallowString.length());
+                        regex = regex.replace("?", "\\?");
+                        regex = regex.replace("*", "\\\\*");
+                        disallowList.add(regex);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                System.out.println("Failed to get robots.txt file for " + links.get(i));
+                continue;
+            }
+
+//            int rootIndex = links.get(i).indexOf(url.getHost());
+//            String linkMatch = links.get(i).substring(rootIndex+url.getHost().length());
+            String path = url.getPath();
             boolean allowed = false;
             for(int j = 0; j < allowList.size(); j++)
             {
                 Pattern p = Pattern.compile(allowList.get(j));
-                Matcher m = p.matcher(links.get(i));
-                if(m.find())
+                Matcher m = p.matcher(path);
+                if(m.find() && m.start() == 0)
                 {
                     allowed = true;
                     break;
@@ -126,8 +127,8 @@ public class Spider
             {
                 for (int j = 0; j < disallowList.size(); j++) {
                     Pattern p = Pattern.compile(disallowList.get(j));
-                    Matcher m = p.matcher(links.get(i));
-                    if(m.find())
+                    Matcher m = p.matcher(path);
+                    if(m.find() && m.start() == 0)
                     {
                         System.out.println(links.get(i));
                         System.out.println(disallowList.get(j));
@@ -138,8 +139,8 @@ public class Spider
                 }
             }
         }
-        System.out.println(links.size());
 
+        System.out.println(links.size());
         return links;
     }
 }
