@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,62 +61,75 @@ public class Spider
 
     private static List<String> filterLinks(List<String> links)
     {
-        for(int i = 0; i < links.size(); i++)
-        {
-            List<String> allowList = new ArrayList<String>();
-            List<String> disallowList = new ArrayList<String>();
-            URL url = null;
+        List<URL> urlLinks = new ArrayList<URL>();
+        for(int i = 0; i < links.size(); i++) {
             try
             {
-                url = new URL(links.get(i));
+                URL url = new URL(links.get(i));
+                urlLinks.add(url);
             }
             catch(MalformedURLException e)
             {
                 System.out.println("Failed to connect to URL " + links.get(i));
-                continue;
             }
-            try(BufferedReader in = new BufferedReader(
-                    new InputStreamReader(new URL(url.getProtocol()+"://"+url.getHost()+"/robots.txt").openStream()))) {
-                String line;
-                String allowString = "Allow:";
-                String disallowString = "Disallow:";
-                boolean startReading = false;
-                while((line = in.readLine()) != null)
-                {
-                    if(line.startsWith("User-agent: *"))
-                    {
-                        startReading = true;
-                    }
-                    else if(line.startsWith("User-agent:" ))
-                    {
-                        if(startReading)
-                            break;
-                        startReading = false;
-                    }
-                    if(startReading) {
-                        line = line.replaceAll("\\s+", "");
-                        if (line.startsWith(allowString)) {
-                            String regex = line.substring(allowString.length());
-                            regex = regex.replace("?", "\\?");
-                            regex = regex.replace("*", "\\\\*");
-                            allowList.add(regex);
-                        } else if (line.startsWith(disallowString)) {
-                            String regex = line.substring(disallowString.length());
-                            regex = regex.replace("?", "\\?");
-                            regex = regex.replace("*", "\\\\*");
-                            disallowList.add(regex);
-                        }
-                    }
-                }
-                in.close();
-            }
-            catch (IOException e)
+        }
+        Collections.sort(urlLinks, new URLComparator());
+
+        List<String> allowList = new ArrayList<String>();
+        List<String> disallowList = new ArrayList<String>();
+        for(int i = 0; i < urlLinks.size(); i++)
+        {
+            boolean linkIsSame;
+            if(i != 0 && urlLinks.get(i).getHost().equals(urlLinks.get(i-1).getHost()))
             {
-                System.out.println("Failed to get robots.txt file for " + links.get(i));
-                continue;
+                linkIsSame = true;
+            }
+            else
+            {
+                linkIsSame = false;
+                allowList = new ArrayList<String>();
+                disallowList = new ArrayList<String>();
             }
 
-            String path = url.getPath();
+            if(!linkIsSame)
+            {
+                try (BufferedReader in = new BufferedReader(
+                        new InputStreamReader(new URL(urlLinks.get(i).getProtocol() + "://" + urlLinks.get(i).getHost() + "/robots.txt").openStream()))) {
+                    String line;
+                    String allowString = "Allow:";
+                    String disallowString = "Disallow:";
+                    boolean startReading = false;
+                    while ((line = in.readLine()) != null) {
+                        if (line.startsWith("User-agent: *")) {
+                            startReading = true;
+                        } else if (line.startsWith("User-agent:")) {
+                            if (startReading)
+                                break;
+                            startReading = false;
+                        }
+                        if (startReading) {
+                            line = line.replaceAll("\\s+", "");
+                            if (line.startsWith(allowString)) {
+                                String regex = line.substring(allowString.length());
+                                regex = regex.replace("?", "\\?");
+                                regex = regex.replace("*", "\\\\*");
+                                allowList.add(regex);
+                            } else if (line.startsWith(disallowString)) {
+                                String regex = line.substring(disallowString.length());
+                                regex = regex.replace("?", "\\?");
+                                regex = regex.replace("*", "\\\\*");
+                                disallowList.add(regex);
+                            }
+                        }
+                    }
+                    in.close();
+                } catch (IOException e) {
+                    System.out.println("Failed to get robots.txt file for " + links.get(i));
+                    continue;
+                }
+            }
+
+            String path = urlLinks.get(i).getPath();
             boolean allowed = false;
             for(int j = 0; j < allowList.size(); j++)
             {
@@ -137,8 +148,7 @@ public class Spider
                     Matcher m = p.matcher(path);
                     if(m.find() && m.start() == 0)
                     {
-                        links.remove(i);
-                        i--;
+                        links.remove(urlLinks.get(i).toString());
                         break;
                     }
                 }
@@ -146,5 +156,15 @@ public class Spider
         }
 
         return links;
+    }
+}
+
+class URLComparator implements Comparator<URL>
+{
+    public int compare(URL a, URL b)
+    {
+        String a1 = a.getHost();
+        String a2 = b.getHost();
+        return a1.compareTo(a2);
     }
 }
