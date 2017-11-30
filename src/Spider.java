@@ -44,7 +44,7 @@ public class Spider
             if(!connection.response().contentType().contains("text/html"))
             {
                 System.out.println("**Failure** Retrieved something other than HTML");
-                return filterLinks(url, links);
+                return filterLinks(links);
             }
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
@@ -52,19 +52,17 @@ public class Spider
             {
                 links.add(link.absUrl("href"));
             }
-            return filterLinks(url, links);
+            return filterLinks(links);
         }
         catch(IOException ioe)
         {
             // We were not successful in our HTTP request
-            return filterLinks(url, links);
+            return filterLinks(links);
         }
     }
 
-    private static List<String> filterLinks(String sUrl, List<String> links) {
-        links.add("https://www.google.com/search");
-        System.out.println(links.size());
-
+    private static List<String> filterLinks(List<String> links)
+    {
         for(int i = 0; i < links.size(); i++)
         {
             List<String> allowList = new ArrayList<String>();
@@ -84,24 +82,35 @@ public class Spider
                 String line;
                 String allowString = "Allow:";
                 String disallowString = "Disallow:";
+                boolean startReading = false;
                 while((line = in.readLine()) != null)
                 {
-                    line = line.replaceAll("\\s+","");
-                    if(line.startsWith(allowString))
+                    if(line.startsWith("User-agent: *"))
                     {
-                        String regex = line.substring(allowString.length());
-                        regex = regex.replace("?", "\\?");
-                        regex = regex.replace("*", "\\\\*");
-                        allowList.add(regex);
+                        startReading = true;
                     }
-                    else if(line.startsWith(disallowString))
+                    else if(line.startsWith("User-agent:" ))
                     {
-                        String regex = line.substring(disallowString.length());
-                        regex = regex.replace("?", "\\?");
-                        regex = regex.replace("*", "\\\\*");
-                        disallowList.add(regex);
+                        if(startReading)
+                            break;
+                        startReading = false;
+                    }
+                    if(startReading) {
+                        line = line.replaceAll("\\s+", "");
+                        if (line.startsWith(allowString)) {
+                            String regex = line.substring(allowString.length());
+                            regex = regex.replace("?", "\\?");
+                            regex = regex.replace("*", "\\\\*");
+                            allowList.add(regex);
+                        } else if (line.startsWith(disallowString)) {
+                            String regex = line.substring(disallowString.length());
+                            regex = regex.replace("?", "\\?");
+                            regex = regex.replace("*", "\\\\*");
+                            disallowList.add(regex);
+                        }
                     }
                 }
+                in.close();
             }
             catch (IOException e)
             {
@@ -109,8 +118,6 @@ public class Spider
                 continue;
             }
 
-//            int rootIndex = links.get(i).indexOf(url.getHost());
-//            String linkMatch = links.get(i).substring(rootIndex+url.getHost().length());
             String path = url.getPath();
             boolean allowed = false;
             for(int j = 0; j < allowList.size(); j++)
@@ -130,8 +137,6 @@ public class Spider
                     Matcher m = p.matcher(path);
                     if(m.find() && m.start() == 0)
                     {
-                        System.out.println(links.get(i));
-                        System.out.println(disallowList.get(j));
                         links.remove(i);
                         i--;
                         break;
@@ -140,7 +145,6 @@ public class Spider
             }
         }
 
-        System.out.println(links.size());
         return links;
     }
 }
