@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.File;
-import java.io.IOException;
+import java.util.logging.Level;
 
 public class Crawler {
 
@@ -28,14 +28,18 @@ public class Crawler {
     }
 
     public static void main(String[] args){
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         pageQueue = GeneratePriorityQueue(file);
 
-        List<String> outlinks = new LinkedList<String>();
+        List<String> totalOutlinks = new LinkedList<String>();
         for (QueueObject q : pageQueue) {
-            outlinks.addAll(Spider.crawl(q.page));
+            List<String> outlinks = Spider.crawl(q.page);
+
+            totalOutlinks.addAll(outlinks); //for testing
+            //call addPage
         }
-        System.out.println("Number of total outlinks: " + outlinks.size());
+        System.out.println("Number of total outlinks: " + totalOutlinks.size());
 
     }
 
