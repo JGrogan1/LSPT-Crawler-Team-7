@@ -69,4 +69,14 @@ class DatabaseHandler {
         return jsonData.toString();
     }
 
+    String GetAll(){
+        MongoCursor c = collection.find().iterator();
+        List<String> jsonData = new LinkedList<String>();
+        while(c.hasNext()){
+            jsonData.add(c.next().toString());
+        }
+        System.out.println(jsonData.toString());
+        return jsonData.toString();
+    }
+
 }
