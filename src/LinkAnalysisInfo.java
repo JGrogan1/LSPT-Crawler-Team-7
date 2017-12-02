@@ -1,3 +1,5 @@
+import org.bson.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +20,36 @@ public class LinkAnalysisInfo
         this.failedWebpages = new ArrayList<String>(failedWebpages);
     }
 
+    public LinkAnalysisInfo(Document doc)
+    {
+        this.link = (String)doc.get("link");
+        this.dateLastUpdated = (String)doc.get("dateLastUpdated");
+        this.frequency = (String)doc.get("frequency");
+        this.outlinks = (ArrayList<String>)doc.get("outlinks");
+        this.failedWebpages = (ArrayList<String>)doc.get("failedWebpages");
+    }
 
+    public String getLink() {
+        return link;
+    }
+
+    public String getDateLastUpdated() {
+        return dateLastUpdated;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public List<String> getOutlinks() {
+        return outlinks;
+    }
+
+    public List<String> getFailedWebpages() {
+        return failedWebpages;
+    }
+
+    public void setDateLastUpdated(String dateLastUpdated) {
+        this.dateLastUpdated = dateLastUpdated;
+    }
 }
