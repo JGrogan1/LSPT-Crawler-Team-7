@@ -10,7 +10,7 @@ import java.util.*;
 public class UserController {
 
     static UserController i;
-    private static Queue<JSONArray> post_queue = new LinkedList<JSONArray>();
+    private static Queue<JSONObject> post_queue = new LinkedList<JSONObject>();
 
     UserController(){
             if(i != null){
@@ -19,6 +19,9 @@ public class UserController {
             i = this;
     }
 
+    public JSONObject GetQueueObject(){
+        return post_queue.remove();
+    }
 
     public UserController(final UserService userService) {
 
@@ -26,7 +29,7 @@ public class UserController {
             @Override
             public Object handle(Request request, Response response) {
                 JSONTokener tokener = new JSONTokener(request.body());
-                JSONArray root = new JSONArray(tokener);
+                JSONObject root = new JSONObject(tokener);
                 System.out.println("Received Post: " + root.toString());
                 post_queue.add(root);
                 return "ack";

@@ -1,3 +1,6 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.File;
@@ -29,6 +32,10 @@ public class Crawler {
 
     public static void main(String[] args){
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
+        UserController uc = new UserController(new UserService()); //Receives Post requests
+        RestClient rc = new RestClient(); //Handles Sending Post requests
+        DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
+
         File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         pageQueue = GeneratePriorityQueue(file);
 
@@ -41,6 +48,23 @@ public class Crawler {
         }
         System.out.println("Number of total outlinks: " + totalOutlinks.size());
 
+    }
+
+    public static int FillPriorityQueue(){
+        int pagesAdded = 0;
+        JSONObject json = UserController.i.GetQueueObject();
+        if(!json.has("webpages")) return pagesAdded;
+        JSONArray array = json.getJSONArray("webpages");
+        for(int i = 0; i < array.length(); ++i){
+            JSONObject tmp = array.getJSONObject(i);
+            if(tmp.has("priority") && tmp.has("webpage")){
+                int p = tmp.getInt("priority");
+                String s = tmp.getString("webpage");
+                pageQueue.add(new QueueObject(s,p));
+                pagesAdded++;
+            }
+        }
+        return pagesAdded;
     }
 
 }

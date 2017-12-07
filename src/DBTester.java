@@ -8,7 +8,7 @@ public class DBTester {
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         UserController uc = new UserController(new UserService()); //Receives Post requests
         RestClient rc = new RestClient(); //Handles Sending Post requests
-        DatabaseHandler db = new DatabaseHandler();
+        DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
 
         db.collection.drop(); //Reset the table so we can have a fresh test
 
