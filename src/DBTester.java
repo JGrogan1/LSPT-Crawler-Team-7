@@ -25,8 +25,8 @@ public class DBTester {
         outlinks2.add("c2");
         outlinks2.add("d2");
 
-        LinkAnalysisInfo lai1 = new LinkAnalysisInfo("www.google.com","1/1/2001","Allday", outlinks1, dedLinks);
-        LinkAnalysisInfo lai2 = new LinkAnalysisInfo("www.google2.com","2/2/2002","Never", outlinks2, dedLinks);
+        DatabaseInfo lai1 = new DatabaseInfo("www.google.com","1/1/2001","Allday", outlinks1, dedLinks);
+        DatabaseInfo lai2 = new DatabaseInfo("www.google2.com","2/2/2002","Never", outlinks2, dedLinks);
         db.AddDocument(lai1);
         db.AddDocument(lai2);
 

@@ -1,9 +1,9 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.io.File;
 import java.util.logging.Level;
 
 public class Crawler {

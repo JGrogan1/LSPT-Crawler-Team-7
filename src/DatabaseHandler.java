@@ -1,16 +1,15 @@
-import com.mongodb.*;
-
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.*;
-
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
 
 class DatabaseHandler {
 
@@ -38,7 +37,7 @@ class DatabaseHandler {
      * @param  lai  Link Analysis Info class to be stored in the database
      * @return      True if the entry was added, False if the entry exists previously
      */
-    boolean AddDocument(LinkAnalysisInfo lai){
+    boolean AddDocument(DatabaseInfo lai){
         JSONObject json = new JSONObject(lai);
         System.out.println("Added Document: " + json.toString());
         if(collection.find(eq("_id",json.get("link"))).first() != null){
@@ -53,10 +52,10 @@ class DatabaseHandler {
 
     String GetAll(){
         MongoCursor c = collection.find().iterator();
-        List<LinkAnalysisInfo> lais = new LinkedList<>();
-        LinkAnalysisInfo lai;
+        List<DatabaseInfo> lais = new LinkedList<>();
+        DatabaseInfo lai;
         while(c.hasNext()){
-            lai = new LinkAnalysisInfo((Document)c.next());
+            lai = new DatabaseInfo((Document)c.next());
             lais.add(lai);
         }
         JSONArray jsonData = new JSONArray(lais);

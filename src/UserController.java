@@ -1,11 +1,13 @@
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static spark.Spark.post;
-import java.util.*;
 
 public class UserController {
 

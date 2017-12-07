@@ -1,13 +1,8 @@
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import jdk.nashorn.internal.objects.NativeUint8Array;
-import org.apache.http.HttpHost;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
