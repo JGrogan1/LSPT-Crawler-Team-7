@@ -53,7 +53,8 @@ public class Crawler {
     public static int FillPriorityQueue(){
         int pagesAdded = 0;
         JSONObject json = UserController.i.GetQueueObject();
-        if(!json.has("webpages")) return pagesAdded;
+        if(json == null) return -2;
+        if(!json.has("webpages")) return -1;
         JSONArray array = json.getJSONArray("webpages");
         for(int i = 0; i < array.length(); ++i){
             JSONObject tmp = array.getJSONObject(i);

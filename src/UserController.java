@@ -20,7 +20,7 @@ public class UserController {
     }
 
     public JSONObject GetQueueObject(){
-        return post_queue.remove();
+        return post_queue.poll();
     }
 
     public UserController(final UserService userService) {
