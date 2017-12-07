@@ -38,6 +38,7 @@ class DatabaseHandler {
      * @return      True if the entry was added, False if the entry exists previously
      */
     boolean AddDocument(DatabaseInfo lai){
+        if(lai == null) return false;
         JSONObject json = new JSONObject(lai);
         System.out.println("Added Document: " + json.toString());
         if(collection.find(eq("_id",json.get("link"))).first() != null){
