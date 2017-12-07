@@ -30,9 +30,8 @@ public class Spider
      *            - The URL to visit
      * @return whether or not the crawl was successful
      */
-    public static List<String> crawl(String url)
+    public static DatabaseInfo crawl(String url)
     {
-        List<String> links = new ArrayList<String>();
         try
         {
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
@@ -45,20 +44,56 @@ public class Spider
             if(!connection.response().contentType().contains("text/html"))
             {
                 System.out.println("**Failure** Retrieved something other than HTML");
-                return filterLinks(links);
+                return null;
             }
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
+
+            List<String> links = new ArrayList<String>();
+            List<String> externalDocs = new ArrayList<String>();
             for(Element link : linksOnPage)
             {
-                links.add(link.absUrl("href"));
+                String aTagLink = link.absUrl("href");
+                if(aTagLink.contains(".txt") || aTagLink.contains(".md") || aTagLink.contains(".pdf"))
+                {
+                    externalDocs.add(aTagLink);
+                }
+                else
+                {
+                    links.add(link.absUrl("href"));
+                }
             }
-            return filterLinks(links);
+            List<String> outlinks = filterLinks(links);
+
+            List<List<String> > documents = new ArrayList<List<String> >();
+
+            for(String doc : externalDocs)
+            {
+                try
+                {
+                    List<String> document = new ArrayList<String>();
+                    Connection docConnection = Jsoup.connect(url).userAgent(USER_AGENT);
+                    Document text = connection.get();
+
+                    document.add(doc);
+                    document.add(doc.substring(doc.lastIndexOf('.')+1));
+                    document.add(text.text());
+                    documents.add(document);
+                }
+                catch(IOException ioe)
+                {
+                    System.out.println("Failed to connect to: " + doc);
+                }
+            }
+
+            DatabaseInfo dbObject = new DatabaseInfo(url, null, null, outlinks, null, htmlDocument.html(), documents);
+            return dbObject;
         }
         catch(IOException ioe)
         {
             // We were not successful in our HTTP request
-            return filterLinks(links);
+            System.out.println("Failed to connect to: " + url);
+            return null;
         }
     }
 

@@ -39,15 +39,12 @@ public class Crawler {
         File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         pageQueue = GeneratePriorityQueue(file);
 
-        List<String> totalOutlinks = new LinkedList<String>();
         for (QueueObject q : pageQueue) {
-            List<String> outlinks = Spider.crawl(q.page);
-
-            totalOutlinks.addAll(outlinks); //for testing
+            DatabaseInfo dbObject = Spider.crawl(q.page);
+            if(dbObject != null)
+                db.AddDocument(dbObject);
             //call addPage
         }
-        System.out.println("Number of total outlinks: " + totalOutlinks.size());
-
     }
 
     public static int FillPriorityQueue(){
