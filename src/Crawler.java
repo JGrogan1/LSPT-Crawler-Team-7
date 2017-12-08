@@ -34,9 +34,16 @@ public class Crawler {
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         UserController uc = new UserController(new UserService()); //Receives Post requests
         RestClient rc = new RestClient(); //Handles Sending Post requests
-        DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
+//        DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
 
-        File file = new File(System.getProperty("user.dir") + "/Files/input.txt");
+        File file;
+        if (args.length > 0) {
+            file = new File(System.getProperty("user.dir") + "/Files/" + args[0]);
+        }
+        // Default file
+        else {
+            file = new File(System.getProperty("user.dir") + "/Files/input.txt");
+        }
         pageQueue = GeneratePriorityQueue(file);
 
         List<String> totalOutlinks = new LinkedList<String>();
