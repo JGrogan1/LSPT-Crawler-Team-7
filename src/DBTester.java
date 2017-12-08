@@ -28,12 +28,13 @@ public class DBTester {
 
         List<String> doc1 = new ArrayList<>();
         doc1.add("test.pdf");
+        doc1.add("pdf");
         doc1.add("This is a test");
-        doc1.add(".pdf");
+
         List<String> doc2 = new ArrayList<>();
         doc2.add("anotherTest.txt");
+        doc2.add("txt");
         doc2.add("This is another test");
-        doc2.add(".txt");
 
         List<List<String> > docs = new ArrayList<List<String> >();
         docs.add(doc1);

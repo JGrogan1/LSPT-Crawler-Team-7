@@ -1,2 +1,1 @@
-https://google.com 23
-https://arstechnica.com 46
+http://www.cs.rpi.edu/~goldsd/csci4963-f17.php 1

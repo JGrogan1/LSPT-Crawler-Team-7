@@ -19,11 +19,24 @@ public class DatabaseInfo
         this.dateLastUpdated = dateLastUpdated;
         this.frequency = frequency;
         this.outlinks = new ArrayList<String>(outlinks);
-        this.failedWebpages = new ArrayList<String>(failedWebpages);
+
+        if(failedWebpages != null)
+        {
+            this.failedWebpages = new ArrayList<String>(failedWebpages);
+        }
+        else
+        {
+            this.failedWebpages = null;
+        }
+
         this.html = html;
+
         docs = new ArrayList<List<String> >();
-        for(List<String> list : documents)
-            docs.add(new ArrayList<String>(list));
+        if(documents != null)
+        {
+            for (List<String> list : documents)
+                docs.add(new ArrayList<String>(list));
+        }
     }
 
     public DatabaseInfo(Document doc)
