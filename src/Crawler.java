@@ -34,7 +34,7 @@ public class Crawler {
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         UserController uc = new UserController(new UserService()); //Receives Post requests
         RestClient rc = new RestClient(); //Handles Sending Post requests
-//        DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
+        //DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
 
         File file;
         if (args.length > 0) {
@@ -48,9 +48,10 @@ public class Crawler {
 
         for (QueueObject q : pageQueue) {
             DatabaseInfo dbObject = Spider.crawl(q.page);
-//            if(dbObject != null)
-//                db.AddDocument(dbObject);
-            //call addPage
+            //if(dbObject != null)
+            //   db.AddDocument(dbObject);
+            //rc.LinkAnalysisPost(dbObject);
+            //rc.sendTextTransformationPost(dbObject);
         }
     }
 
