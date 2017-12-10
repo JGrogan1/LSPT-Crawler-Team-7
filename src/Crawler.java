@@ -45,11 +45,6 @@ public class Crawler
 
 
         File file = new File(System.getProperty("user.dir") + "/Files/" + args[0]);
-        if (!file.exists())
-        {
-            System.out.println("Invalid file.");
-            return;
-        }
 
         pageQueue = GeneratePriorityQueue(file);
 
