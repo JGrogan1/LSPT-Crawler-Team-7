@@ -11,7 +11,7 @@ public class RestClient
 
     public static RestClient i = null;
 
-    private static final String URI = "http://teamz.cs.rpi.edu:8080/document";
+    private static final String URI = "http://localhost:4567/post";//"http://teamz.cs.rpi.edu:8080/document";
 
     RestClient()
     {
@@ -22,6 +22,12 @@ public class RestClient
         i = this;
     }
 
+    /**
+     * Send a JSON object of data to link analysis
+     *
+     * @param  dbi  java object representing a database object
+     * @return      string representing whether the post request succeeded
+     */
     public String LinkAnalysisPost(DatabaseInfo dbi)
     {
         List<DatabaseInfo> pages = new LinkedList<DatabaseInfo>();
@@ -46,6 +52,12 @@ public class RestClient
         }
     }
 
+    /**
+     * Send a JSON object of data to text transformation
+     *
+     * @param  dbi  java object representing a database object
+     * @return      string representing whether the post request succeeded
+     */
     public String sendTextTransformationPost(DatabaseInfo dbi)
     {
         JSONObject json = new JSONObject();

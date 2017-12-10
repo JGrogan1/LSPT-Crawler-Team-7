@@ -24,14 +24,23 @@ public class UserController
             i = this;
     }
 
+    /**
+     * Returns the JSONObject at the front of the received Posts queue
+     *
+     * @return JSONObject containing the front item, or NULL if the queue is empty
+     */
     public JSONObject GetQueueObject()
     {
         return post_queue.poll();
     }
 
+
+    /**
+     * Receive posts at the specified URL, all posts are converted to JSON and added to the Database
+     * returns an acknowledgment to the User
+     */
     public UserController(final UserService userService)
     {
-
         post("/post", new Route() {
             @Override
             public Object handle(Request request, Response response) {
