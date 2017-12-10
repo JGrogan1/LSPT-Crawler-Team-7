@@ -177,7 +177,7 @@ public class Spider
                 }
                 catch (IOException e)
                 {
-                    System.out.println("Failed to get robots.txt file for " + links.get(i));
+                    System.out.println("Failed to get robots.txt file for " + urlLinks.get(i).getProtocol() + "://" + urlLinks.get(i).getHost() + "/robots.txt");
                     continue;
                 }
             }
