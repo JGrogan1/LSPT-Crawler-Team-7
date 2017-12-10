@@ -1,0 +1,3 @@
+http://www.cs.rpi.edu/~goldsd/index.php 35
+http://onlineclock.net/ 1
+https://google.com/ 50

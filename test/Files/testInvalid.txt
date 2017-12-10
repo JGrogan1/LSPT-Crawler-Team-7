@@ -1,0 +1,3 @@
+invalid]website[.]com 1
+another[invalid]website 2
+1..more..for..good..measure.com 2

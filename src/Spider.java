@@ -65,6 +65,8 @@ public class Spider
             }
             List<String> outlinks = filterLinks(links);
 
+            System.out.println("Found (" + outlinks.size() + ") valid outlinks");
+
             List<List<String> > documents = new ArrayList<List<String> >();
 
             for(String doc : externalDocs)

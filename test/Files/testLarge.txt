@@ -1,0 +1,7 @@
+https://google.com 15
+https://lms.rpi.edu 10
+https://rpi.edu 23
+https://piazza.com 8
+https://www.jetbrains.com 9
+http://www.cs.rpi.edu/~goldsd/index.php 35
+http://homepages.rpi.edu/~schmid/MVC/mvc.html 1

@@ -45,6 +45,6 @@ public class DBTester {
         db.AddDocument(lai1);
         db.AddDocument(lai2);
 
-        rc.sendLinkAnalysisPost();
+//        rc.sendLinkAnalysisPost();
     }
 }

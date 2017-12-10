@@ -48,8 +48,8 @@ public class Crawler {
 
         for (QueueObject q : pageQueue) {
             DatabaseInfo dbObject = Spider.crawl(q.page);
-            if(dbObject != null)
-                db.AddDocument(dbObject);
+//            if(dbObject != null)
+//                db.AddDocument(dbObject);
             //call addPage
         }
     }
