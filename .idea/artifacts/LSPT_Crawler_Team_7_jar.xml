@@ -1,14 +1,20 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="LSPT-Crawler-Team-7:jar">
+  <artifact name="LSPT-Crawler-Team-7:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/LSPT_Crawler_Team_7_jar</output-path>
-    <root id="archive" name="LSPT-Crawler-Team-7.jar">
-      <element id="module-output" name="test" />
-      <element id="module-output" name="LSPT-Crawler-Team-7" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/pdfbox-2.0.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/fontbox-2.0.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-logging-1.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsoup-1.11.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mongo-java-driver-3.5.0.jar" path-in-jar="/" />
+    <root id="root">
+      <element id="archive" name="LSPT-Crawler-Team-7.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="LSPT-Crawler-Team-7" />
+      </element>
+      <element id="library" level="project" name="com.mashape.unirest:unirest-java:1.4.9" />
+      <element id="library" level="project" name="mongo-java-driver-3.5.0" />
+      <element id="library" level="project" name="org.jsoup:jsoup:1.11.1" />
+      <element id="library" level="project" name="org_json" />
+      <element id="library" level="project" name="org.slf4j:slf4j-simple:1.6.2" />
+      <element id="library" level="project" name="com.sparkjava:spark-core:2.0.0" />
+      <element id="library" level="project" name="org.apache.pdfbox:pdfbox:2.0.4" />
     </root>
   </artifact>
 </component>
