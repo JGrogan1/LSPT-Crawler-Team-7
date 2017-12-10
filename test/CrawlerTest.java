@@ -5,42 +5,48 @@ public class CrawlerTest {
 
     // Crawls Google
     @Test
-    public void testSmall() {
+    public void testSmall()
+    {
         String args[] = {"testSmall.txt"};
         Crawler.main(args);
     }
 
     // Crawls three different websites
     @Test
-    public void testMedium() {
+    public void testMedium()
+    {
         String args[] = {"testMedium.txt"};
         Crawler.main(args);
     }
 
     // Crawls seven different websites
     @Test
-    public void testLarge() {
+    public void testLarge()
+    {
         String args[] = {"testLarge.txt"};
         Crawler.main(args);
     }
 
     // Crawls a websites that links to a lot of documents -- pdfs, also checks how we handle .ppt extensions
     @Test
-    public void testDocs() {
+    public void testDocs()
+    {
         String args[] = {"testDocs.txt"};
         Crawler.main(args);
     }
 
     // Crawls a news site -- with a lot of outlinks
     @Test
-    public void testNews() {
+    public void testNews()
+    {
         String args[] = {"testNews.txt"};
         Crawler.main(args);
     }
 
     // Feeds crawler urls that don't follow valid url structure
     @Test
-    public void testInvalid() {
+    public void testInvalid()
+    {
         String args[] = {"testInvalid.txt"};
         Crawler.main(args);
     }
@@ -54,7 +60,8 @@ public class CrawlerTest {
 
     // Attempts to crawl a non-existent website
     @Test
-    public void testNotFound() {
+    public void testNotFound()
+    {
         String args[] = {"testNotFound.txt"};
         Crawler.main(args);
     }
