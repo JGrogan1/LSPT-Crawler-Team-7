@@ -41,7 +41,7 @@ public class Spider
             {
                 System.out.println("\n**Visiting** Received web page at " + url);
             }
-           
+
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
 
@@ -142,7 +142,8 @@ public class Spider
                         if (line.startsWith("User-agent: *"))
                         {
                             startReading = true;
-                        } else if (line.startsWith("User-agent:"))
+                        }
+                        else if (line.startsWith("User-agent:"))
                         {
                             if (startReading)
                                 break;
@@ -166,7 +167,8 @@ public class Spider
                         }
                     }
                     in.close();
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     System.out.println("Failed to get robots.txt file for " + links.get(i));
                     continue;
