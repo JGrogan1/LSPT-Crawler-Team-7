@@ -15,15 +15,6 @@ public class UserController
     static UserController i;
     private static Queue<JSONObject> post_queue = new LinkedList<JSONObject>();
 
-    UserController()
-    {
-            if(i != null)
-            {
-                return;
-            }
-            i = this;
-    }
-
     /**
      * Returns the JSONObject at the front of the received Posts queue
      *
@@ -41,6 +32,12 @@ public class UserController
      */
     public UserController(final UserService userService)
     {
+        if(i != null)
+        {
+            return;
+        }
+        i = this;
+
         post("/post", new Route() {
             @Override
             public Object handle(Request request, Response response) {
