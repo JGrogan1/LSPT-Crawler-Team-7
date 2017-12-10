@@ -6,20 +6,30 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RestClient {
+public class RestClient
+{
 
     public static RestClient i = null;
 
-    private static final String URI = "http://teamz.cs.rpi.edu:8080/document";
+    private static final String URI = "http://localhost:4567/post";//"http://teamz.cs.rpi.edu:8080/document";
 
-    RestClient(){
-        if(i != null){
+    RestClient()
+    {
+        if(i != null)
+        {
             return;
         }
         i = this;
     }
 
-    public String LinkAnalysisPost(DatabaseInfo dbi) {
+    /**
+     * Send a JSON object of data to link analysis
+     *
+     * @param  dbi  java object representing a database object
+     * @return      string representing whether the post request succeeded
+     */
+    public String LinkAnalysisPost(DatabaseInfo dbi)
+    {
         List<DatabaseInfo> pages = new LinkedList<DatabaseInfo>();
         pages.add(dbi);
         JSONArray array = new JSONArray(pages);
@@ -28,18 +38,28 @@ public class RestClient {
         json.put("webpages",array);
         json.put("failedWebpages",dead_links);
         System.out.println("Sending to LinkAnalysis: " + json.toString());
-        try {
+        try
+        {
             HttpResponse<String> httpResponse = Unirest.post(URI)
                     .header("Content-Type", "application/json")
                     .body(json.toString()).asString();
             return "ack";
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return "failure";
         }
     }
 
-    public String sendTextTransformationPost(DatabaseInfo dbi) {
+    /**
+     * Send a JSON object of data to text transformation
+     *
+     * @param  dbi  java object representing a database object
+     * @return      string representing whether the post request succeeded
+     */
+    public String sendTextTransformationPost(DatabaseInfo dbi)
+    {
         JSONObject json = new JSONObject();
         json.put("html",dbi.getHtml());
         json.put("docs",dbi.getDocuments());
@@ -48,12 +68,15 @@ public class RestClient {
         //json.put("timestamp",);
 
         System.out.println("Sending to Text Transformation: " + json.toString());
-        try {
+        try
+        {
             HttpResponse<String> httpResponse = Unirest.post(URI)
                     .header("Content-Type", "application/json")
                     .body(json.toString()).asString();
             return "ack";
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return "failure";
         }

@@ -41,11 +41,7 @@ public class Spider
             {
                 System.out.println("\n**Visiting** Received web page at " + url);
             }
-            if(!connection.response().contentType().contains("text/html"))
-            {
-                System.out.println("**Failure** Retrieved something other than HTML");
-                return null;
-            }
+           
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
 
@@ -82,7 +78,7 @@ public class Spider
                     document.add(text.text());
                     documents.add(document);
                 }
-                catch(IOException ioe)
+                catch(Exception ioe)
                 {
                     System.out.println("Failed to connect to: " + doc);
                 }
@@ -91,7 +87,7 @@ public class Spider
             DatabaseInfo dbObject = new DatabaseInfo(url, null, null, outlinks, null, htmlDocument.html(), documents);
             return dbObject;
         }
-        catch(IOException ioe)
+        catch(Exception ioe)
         {
             // We were not successful in our HTTP request
             System.out.println("Failed to connect to: " + url);

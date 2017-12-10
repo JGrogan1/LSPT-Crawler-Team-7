@@ -50,23 +50,28 @@ public class DatabaseInfo
         this.docs = (List<List<String> >)doc.get("docs");
     }
 
-    public String getLink() {
+    public String getLink()
+    {
         return link;
     }
 
-    public String getDateLastUpdated() {
+    public String getDateLastUpdated()
+    {
         return dateLastUpdated;
     }
 
-    public String getFrequency() {
+    public String getFrequency()
+    {
         return frequency;
     }
 
-    public List<String> getOutlinks() {
+    public List<String> getOutlinks()
+    {
         return outlinks;
     }
 
-    public List<String> getFailedWebpages() {
+    public List<String> getFailedWebpages()
+    {
         return failedWebpages;
     }
 
@@ -74,11 +79,13 @@ public class DatabaseInfo
         return html;
     }
 
-    public List<List<String> > getDocuments() {
+    public List<List<String> > getDocuments()
+    {
         return docs;
     }
 
-    public void setDateLastUpdated(String dateLastUpdated) {
+    public void setDateLastUpdated(String dateLastUpdated)
+    {
         this.dateLastUpdated = dateLastUpdated;
     }
 }
