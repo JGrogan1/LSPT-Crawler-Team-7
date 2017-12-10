@@ -82,7 +82,7 @@ public class Spider
                     document.add(text.text());
                     documents.add(document);
                 }
-                catch(IOException ioe)
+                catch(Exception ioe)
                 {
                     System.out.println("Failed to connect to: " + doc);
                 }
@@ -91,7 +91,7 @@ public class Spider
             DatabaseInfo dbObject = new DatabaseInfo(url, null, null, outlinks, null, htmlDocument.html(), documents);
             return dbObject;
         }
-        catch(IOException ioe)
+        catch(Exception ioe)
         {
             // We were not successful in our HTTP request
             System.out.println("Failed to connect to: " + url);
