@@ -43,7 +43,7 @@ public class UserController
             public Object handle(Request request, Response response) {
                 JSONTokener tokener = new JSONTokener(request.body());
                 JSONObject root = new JSONObject(tokener);
-                System.out.println("Received Post: " + root.toString());
+
                 post_queue.add(root);
                 return "ack";
             }

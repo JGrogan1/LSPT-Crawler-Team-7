@@ -37,7 +37,7 @@ public class RestClient
         JSONObject json = new JSONObject();
         json.put("webpages",array);
         json.put("failedWebpages",dead_links);
-        System.out.println("Sending to LinkAnalysis: " + json.toString());
+        json.put("failedWebpages",dead_links);
         try
         {
             HttpResponse<String> httpResponse = Unirest.post(URI)
@@ -65,9 +65,7 @@ public class RestClient
         json.put("docs",dbi.getDocuments());
         json.put("outlinks",dbi.getDocuments());
         json.put("url",dbi.getDocuments());
-        //json.put("timestamp",);
 
-        System.out.println("Sending to Text Transformation: " + json.toString());
         try
         {
             HttpResponse<String> httpResponse = Unirest.post(URI)
