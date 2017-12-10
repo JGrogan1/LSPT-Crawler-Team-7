@@ -95,6 +95,13 @@ public class Spider
         }
     }
 
+    /**
+     * Takes in the list of links and filters out all links that don't adhere to the link's
+     * respective robots.txt file
+     *
+     * @param  links  A list of website url links as strings
+     * @return        A list of valid outlinks
+     */
     private static List<String> filterLinks(List<String> links)
     {
         List<URL> urlLinks = new ArrayList<URL>();
@@ -205,8 +212,16 @@ public class Spider
     }
 }
 
+
 class URLComparator implements Comparator<URL>
 {
+    /**
+     * Compares the string representation of two URLs
+     *
+     * @param  a  java URL object
+     * @param  b  java URL object
+     * @return    0 if a = b, a positive number if a > b, a negative number if a < b
+     */
     public int compare(URL a, URL b)
     {
         String a1 = a.getHost();

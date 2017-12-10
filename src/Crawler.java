@@ -10,6 +10,13 @@ public class Crawler
 {
     static  private  PriorityQueue<QueueObject> pageQueue;
 
+    /**
+     * Reads in a file containing links formatted as ["link" priority_value]
+     * i.e. google.com 10
+     *
+     * @param  file  java File object to read from
+     * @return       a priority queue created from the links in the file
+     */
     public static PriorityQueue<QueueObject> GeneratePriorityQueue(File file)
     {
         Comparator<QueueObject> comp = new QueueSort();
@@ -60,6 +67,9 @@ public class Crawler
         }
     }
 
+    /**
+     * Gets queue sent to us from Link Analysis and adds it to our priority queue
+     */
     public static int FillPriorityQueue()
     {
         int pagesAdded = 0;
@@ -95,9 +105,16 @@ class QueueObject
     }
 }
 
+
 class QueueSort implements Comparator<QueueObject>
 {
-    @Override
+    /**
+     * Compares the priority value of two java QueueObjects
+     *
+     * @param  a  java QueueObject object
+     * @param  b  java QueueObject object
+     * @return    0 if a = b, a positive number if a > b, a negative number if a < b
+     */
     public int compare(QueueObject a, QueueObject b)
     {
         return a.priority - b.priority;
