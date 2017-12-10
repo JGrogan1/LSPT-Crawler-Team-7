@@ -15,15 +15,6 @@ public class UserController
     static UserController i;
     private static Queue<JSONObject> post_queue = new LinkedList<JSONObject>();
 
-    UserController()
-    {
-            if(i != null)
-            {
-                return;
-            }
-            i = this;
-    }
-
     public JSONObject GetQueueObject()
     {
         return post_queue.poll();
@@ -31,6 +22,11 @@ public class UserController
 
     public UserController(final UserService userService)
     {
+        if(i != null)
+        {
+            return;
+        }
+        i = this;
 
         post("/post", new Route() {
             @Override

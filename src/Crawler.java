@@ -54,13 +54,15 @@ public class Crawler
         }
         pageQueue = GeneratePriorityQueue(file);
 
-        for (QueueObject q : pageQueue)
+        while(!pageQueue.isEmpty())
         {
+            QueueObject q = pageQueue.poll();
             DatabaseInfo dbObject = Spider.crawl(q.page);
             //if(dbObject != null)
             //   db.AddDocument(dbObject);
             //rc.LinkAnalysisPost(dbObject);
             //rc.sendTextTransformationPost(dbObject);
+            FillPriorityQueue();
         }
     }
 

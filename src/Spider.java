@@ -41,11 +41,7 @@ public class Spider
             {
                 System.out.println("\n**Visiting** Received web page at " + url);
             }
-            if(!connection.response().contentType().contains("text/html"))
-            {
-                System.out.println("**Failure** Retrieved something other than HTML");
-                return null;
-            }
+           
             Elements linksOnPage = htmlDocument.select("a[href]");
             System.out.println("Found (" + linksOnPage.size() + ") links");
 
