@@ -51,16 +51,6 @@ public class DatabaseInfo
         }
     }
 
-    public DatabaseInfo(Document doc)
-    {
-        this.link = (String)doc.get("link");
-        this.dateLastUpdated = (String)doc.get("dateLastUpdated");
-        this.frequency = (String)doc.get("frequency");
-        this.outlinks = (ArrayList<String>)doc.get("outlinks");
-        this.failedWebpages = (ArrayList<String>)doc.get("failedWebpages");
-        this.html = (String)doc.get("html");
-        this.docs = (List<List<String> >)doc.get("docs");
-    }
 
     public String getLink()
     {

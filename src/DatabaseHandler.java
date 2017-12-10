@@ -26,6 +26,9 @@ class DatabaseHandler
     {
         if(i != null)
         {
+            client = i.client;
+            db = i.db;
+            collection = i.collection;
             return;
         }
         i = this;
@@ -54,21 +57,6 @@ class DatabaseHandler
         collection.insertOne(doc);
 
         return true;
-    }
-
-    String GetAll()
-    {
-        MongoCursor c = collection.find().iterator();
-        List<DatabaseInfo> lais = new LinkedList<>();
-        DatabaseInfo lai;
-        while(c.hasNext())
-        {
-            lai = new DatabaseInfo((Document)c.next());
-            lais.add(lai);
-        }
-        JSONArray jsonData = new JSONArray(lais);
-        System.out.println("GetAll: " + jsonData.toString());
-        return jsonData.toString();
     }
 
 }

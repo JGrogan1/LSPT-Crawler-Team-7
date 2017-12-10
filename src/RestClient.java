@@ -65,7 +65,9 @@ public class RestClient
         json.put("docs",dbi.getDocuments());
         json.put("outlinks",dbi.getDocuments());
         json.put("url",dbi.getDocuments());
+        //json.put("timestamp",);
 
+        System.out.println("Sending to Text Transformation: " + json.toString());
         try
         {
             HttpResponse<String> httpResponse = Unirest.post(URI)
