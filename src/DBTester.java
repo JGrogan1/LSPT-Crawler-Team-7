@@ -3,9 +3,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-public class DBTester {
+public class DBTester
+{
 
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
         UserController uc = new UserController(new UserService()); //Receives Post requests
         RestClient rc = new RestClient(); //Handles Sending Post requests

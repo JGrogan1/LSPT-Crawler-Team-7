@@ -11,7 +11,8 @@ import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
-class DatabaseHandler {
+class DatabaseHandler
+{
 
     public static DatabaseHandler i = null;
 
@@ -21,8 +22,10 @@ class DatabaseHandler {
     /**
      * Attempt to create a new Singleton Database Handler, opening the Pages Database
      */
-    DatabaseHandler() {
-        if(i != null){
+    DatabaseHandler()
+    {
+        if(i != null)
+        {
             return;
         }
         i = this;
@@ -37,11 +40,13 @@ class DatabaseHandler {
      * @param  lai  Link Analysis Info class to be stored in the database
      * @return      True if the entry was added, False if the entry exists previously
      */
-    boolean AddDocument(DatabaseInfo lai){
+    boolean AddDocument(DatabaseInfo lai)
+    {
         if(lai == null) return false;
         JSONObject json = new JSONObject(lai);
         System.out.println("Added Document: " + json.toString());
-        if(collection.find(eq("_id",json.get("link"))).first() != null){
+        if(collection.find(eq("_id",json.get("link"))).first() != null)
+        {
             return false;
         }
         Document doc = Document.parse( json.toString() );
@@ -51,11 +56,13 @@ class DatabaseHandler {
         return true;
     }
 
-    String GetAll(){
+    String GetAll()
+    {
         MongoCursor c = collection.find().iterator();
         List<DatabaseInfo> lais = new LinkedList<>();
         DatabaseInfo lai;
-        while(c.hasNext()){
+        while(c.hasNext())
+        {
             lai = new DatabaseInfo((Document)c.next());
             lais.add(lai);
         }

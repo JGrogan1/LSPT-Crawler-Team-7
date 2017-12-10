@@ -9,23 +9,28 @@ import java.util.Queue;
 
 import static spark.Spark.post;
 
-public class UserController {
+public class UserController
+{
 
     static UserController i;
     private static Queue<JSONObject> post_queue = new LinkedList<JSONObject>();
 
-    UserController(){
-            if(i != null){
+    UserController()
+    {
+            if(i != null)
+            {
                 return;
             }
             i = this;
     }
 
-    public JSONObject GetQueueObject(){
+    public JSONObject GetQueueObject()
+    {
         return post_queue.poll();
     }
 
-    public UserController(final UserService userService) {
+    public UserController(final UserService userService)
+    {
 
         post("/post", new Route() {
             @Override
