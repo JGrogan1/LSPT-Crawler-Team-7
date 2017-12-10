@@ -53,6 +53,8 @@ public class Crawler
             file = new File(System.getProperty("user.dir") + "/Files/input.txt");
         }
         pageQueue = GeneratePriorityQueue(file);
+        if(pageQueue == null)
+            return;
 
         while(!pageQueue.isEmpty())
         {
