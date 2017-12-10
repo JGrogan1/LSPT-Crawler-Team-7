@@ -13,6 +13,18 @@ public class DatabaseInfo
     private String html;
     private List<List<String> > docs;
 
+    /**
+     * DatabaseInfo object used to store all the appropriate info in the database
+     * Values can be null
+     *
+     * @param  link             The link crawled
+     * @param  dateLastUpdated  The date the website was last updated
+     * @param  frequency        The frequency the page is crawled according to the sitemap
+     * @param  outlinks         List of valid outlinks
+     * @param  failedWebpages   All invalid links found
+     * @param  html             Full website html
+     * @param  documents        List of lists, each containing the document name, the document type, and the document text
+     */
     public DatabaseInfo(String link, String dateLastUpdated, String frequency, List<String> outlinks, List<String> failedWebpages, String html, List<List<String> > documents)
     {
         this.link = link;

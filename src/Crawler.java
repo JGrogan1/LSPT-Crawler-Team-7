@@ -49,8 +49,7 @@ public class Crawler
         UserController uc = new UserController(new UserService()); //Receives Post requests
         RestClient rc = new RestClient(); //Handles Sending Post requests
         //DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
-
-
+        
         File file = new File(System.getProperty("user.dir") + "/Files/" + args[0]);
 
         pageQueue = GeneratePriorityQueue(file);
@@ -59,10 +58,11 @@ public class Crawler
         {
             QueueObject q = pageQueue.poll();
             DatabaseInfo dbObject = Spider.crawl(q.page);
-            //if(dbObject != null)
-            //   db.AddDocument(dbObject);
-            //rc.LinkAnalysisPost(dbObject);
-            //rc.sendTextTransformationPost(dbObject);
+//            if(dbObject != null) {
+//                db.AddDocument(dbObject);
+//                rc.LinkAnalysisPost(dbObject);
+//                rc.sendTextTransformationPost(dbObject);
+//            }
             FillPriorityQueue();
         }
     }
