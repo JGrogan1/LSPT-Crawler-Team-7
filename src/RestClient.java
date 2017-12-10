@@ -11,7 +11,7 @@ public class RestClient
 
     public static RestClient i = null;
 
-    private static final String URI = "http://localhost:4567/post";//"http://teamz.cs.rpi.edu:8080/document";
+    private static final String URI = "http://teamz.cs.rpi.edu:8080/document";
 
     RestClient()
     {

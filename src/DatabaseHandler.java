@@ -47,7 +47,6 @@ class DatabaseHandler
     {
         if(lai == null) return false;
         JSONObject json = new JSONObject(lai);
-        System.out.println("Added Document: " + json.toString());
         if(collection.find(eq("_id",json.get("link"))).first() != null)
         {
             return false;
