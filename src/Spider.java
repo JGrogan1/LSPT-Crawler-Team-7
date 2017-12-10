@@ -102,7 +102,8 @@ public class Spider
     private static List<String> filterLinks(List<String> links)
     {
         List<URL> urlLinks = new ArrayList<URL>();
-        for(int i = 0; i < links.size(); i++) {
+        for(int i = 0; i < links.size(); i++)
+        {
             try
             {
                 URL url = new URL(links.get(i));
@@ -134,27 +135,33 @@ public class Spider
             if(!linkIsSame)
             {
                 try (BufferedReader in = new BufferedReader(
-                        new InputStreamReader(new URL(urlLinks.get(i).getProtocol() + "://" + urlLinks.get(i).getHost() + "/robots.txt").openStream()))) {
+                        new InputStreamReader(new URL(urlLinks.get(i).getProtocol() + "://" + urlLinks.get(i).getHost() + "/robots.txt").openStream())))
+                {
                     String line;
                     String allowString = "Allow:";
                     String disallowString = "Disallow:";
                     boolean startReading = false;
-                    while ((line = in.readLine()) != null) {
-                        if (line.startsWith("User-agent: *")) {
+                    while ((line = in.readLine()) != null)
+                    {
+                        if (line.startsWith("User-agent: *"))
+                        {
                             startReading = true;
-                        } else if (line.startsWith("User-agent:")) {
+                        } else if (line.startsWith("User-agent:"))
+                        {
                             if (startReading)
                                 break;
                             startReading = false;
                         }
                         if (startReading) {
                             line = line.replaceAll("\\s+", "");
-                            if (line.startsWith(allowString)) {
+                            if (line.startsWith(allowString))
+                            {
                                 String regex = line.substring(allowString.length());
                                 regex = regex.replace("?", "\\?");
                                 regex = regex.replace("*", "\\\\*");
                                 allowList.add(regex);
-                            } else if (line.startsWith(disallowString)) {
+                            } else if (line.startsWith(disallowString))
+                            {
                                 String regex = line.substring(disallowString.length());
                                 regex = regex.replace("?", "\\?");
                                 regex = regex.replace("*", "\\\\*");
@@ -163,7 +170,8 @@ public class Spider
                         }
                     }
                     in.close();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     System.out.println("Failed to get robots.txt file for " + links.get(i));
                     continue;
                 }
