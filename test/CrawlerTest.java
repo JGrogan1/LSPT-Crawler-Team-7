@@ -27,7 +27,7 @@ public class CrawlerTest {
         Crawler.main(args);
     }
 
-    // Crawls a websites that links to a lot of documents -- pdfs, also checks how we handle .ppt extensions
+    // Crawls a websites that links to a lot of documents -- pdfs, also checks how we handle files with other extensions (.ppt)
     @Test
     public void testDocs()
     {
@@ -47,11 +47,11 @@ public class CrawlerTest {
     @Test
     public void testInvalid()
     {
-        String args[] = {"testInvalid.txt"};
+        String args[] = {"non-existent-file"};
         Crawler.main(args);
     }
 
-    // Attemps to crawl a website that redirects
+    // Attempts to crawl a website that redirects
     @Test
     public void testRedirect() {
         String args[] = {"testRedirect.txt"};

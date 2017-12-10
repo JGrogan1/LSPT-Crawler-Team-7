@@ -36,14 +36,13 @@ public class Crawler {
         RestClient rc = new RestClient(); //Handles Sending Post requests
         //DatabaseHandler db = new DatabaseHandler(); //Handles Database Queries
 
-        File file;
-        if (args.length > 0) {
-            file = new File(System.getProperty("user.dir") + "/Files/" + args[0]);
+        File file = new File(System.getProperty("user.dir") + "/Files/" + args[0]);
+        if (!file.exists())
+        {
+            System.out.println("Invalid file.");
+            return;
         }
-        // Default file
-        else {
-            file = new File(System.getProperty("user.dir") + "/Files/input.txt");
-        }
+
         pageQueue = GeneratePriorityQueue(file);
 
         for (QueueObject q : pageQueue) {
