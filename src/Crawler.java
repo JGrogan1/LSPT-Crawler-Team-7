@@ -59,7 +59,8 @@ public class Crawler
         {
             QueueObject q = pageQueue.poll();
             DatabaseInfo dbObject = Spider.crawl(q.page);
-            if(dbObject != null) {
+            if(dbObject != null)
+            {
                 DatabaseHandler.i.AddDocument(dbObject);
                 RestClient.i.LinkAnalysisPost(dbObject);
                 RestClient.i.sendTextTransformationPost(dbObject);
