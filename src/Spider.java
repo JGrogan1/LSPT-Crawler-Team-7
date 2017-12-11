@@ -63,6 +63,12 @@ public class Spider
 
             System.out.println("Found (" + outlinks.size() + ") valid outlinks");
 
+            // Use what this prints out to compare to outlink and html documents for testing
+            // for(String link : outlinks)
+            // {
+            //    System.out.println(link);
+            // }
+
             List<List<String> > documents = new ArrayList<List<String> >();
 
             for(String doc : externalDocs)

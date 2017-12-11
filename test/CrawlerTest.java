@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-//TODO: Compare outputs -- hard to create outlink list by hand, hard to compare documents
+// Output comparisons to documents in drive -- Print crawler outlinks when testing
 public class CrawlerTest {
 
     // Crawls Google
